@@ -10,7 +10,7 @@ public class Book {
 
     @Id
     @GeneratedValue
-    private Integer id
+    private Integer id;
 
     @Basic(optional = false)
     private String title;
