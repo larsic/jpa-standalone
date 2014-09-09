@@ -8,7 +8,9 @@
     </appender>
 
     <logger name="org" level="INFO"/>
-    <logger name="org.hibernate.sql" level="info"/>
+
+    <logger name="org.hibernate.SQL" level="DEBUG" />
+    <logger name="org.hibernate.type" level="TRACE" />
 
     <root level="DEBUG">
         <appender-ref ref="console"/>
