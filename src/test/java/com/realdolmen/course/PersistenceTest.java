@@ -1,6 +1,8 @@
 package com.realdolmen.course;
 
 import org.junit.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -8,6 +10,8 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 public abstract class PersistenceTest {
+    private static final Logger logger = LoggerFactory.getLogger(PersistenceTest.class);
+
     private static EntityManagerFactory entityManagerFactory;
 
     private EntityManager entityManager;
@@ -15,11 +19,13 @@ public abstract class PersistenceTest {
 
     @BeforeClass
     public static void initializeEntityManagerFactory() {
+        logger.info("Creating EntityManagerFactory");
         entityManagerFactory = Persistence.createEntityManagerFactory("KevinPu");
     }
 
     @Before
     public void initialize() {
+        logger.info("Creating transacted EntityManager");
         entityManager = entityManagerFactory.createEntityManager();
         transaction = entityManager.getTransaction();
         transaction.begin();
@@ -27,6 +33,7 @@ public abstract class PersistenceTest {
 
     @After
     public void destroy() {
+        logger.info("Committing and closing transacted EntityManager");
         if(transaction != null && !transaction.getRollbackOnly()) {
             transaction.commit();
         }
@@ -38,6 +45,7 @@ public abstract class PersistenceTest {
 
     @AfterClass
     public static void destroyEntityManagerFactory() {
+        logger.info("Closing EntityManagerFactory");
         if(entityManagerFactory != null) {
             entityManagerFactory.close();
         }

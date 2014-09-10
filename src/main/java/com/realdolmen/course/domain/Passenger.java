@@ -20,6 +20,12 @@ public class Passenger {
         creationDate = new Date();
     }
 
+    /**
+     * Used by JPA.
+     */
+    Passenger() {
+    }
+
     public Passenger(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;

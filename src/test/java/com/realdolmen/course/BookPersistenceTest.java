@@ -9,7 +9,7 @@ import javax.persistence.PersistenceException;
 
 import static org.junit.Assert.assertNotNull;
 
-public class BookPersistenceTest extends PersistenceTest {
+public class BookPersistenceTest extends DataSetPersistenceTest {
     @Rule
     public ExpectedException expector = ExpectedException.none();
 

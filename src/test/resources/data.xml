@@ -1,0 +1,4 @@
+<dataset>
+    <passenger id="1" firstName="George" lastName="Orwell" creationDate="2014-09-10"/>
+    <passenger id="2" firstName="Aldous" lastName="Huxley" creationDate="2014-09-09"/>
+</dataset>
