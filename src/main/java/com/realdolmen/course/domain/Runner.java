@@ -14,7 +14,7 @@ public class Runner {
             entityManager = entityManagerFactory.createEntityManager();
             EntityTransaction transaction = entityManager.getTransaction();
             transaction.begin();
-            entityManager.persist(new Book("Ninteen Eighty Four", "George Orwell"));
+            entityManager.persist(new Book("Ninteen Eighty Four", "George Orwell", Book.Genre.fiction));
             transaction.commit();
         } finally {
             if(entityManager != null) {

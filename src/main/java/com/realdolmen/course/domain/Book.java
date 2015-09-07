@@ -4,16 +4,17 @@ import javax.persistence.*;
 
 @Entity
 public class Book {
-    public static enum Genre {
-        BIOGRAPHY, FANTASY, THRILLER
+    public enum Genre {
+        biography, fantasy, thriller, fiction
     }
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Basic(optional = false)
     private String title;
+
     private String author;
 
     @Enumerated(EnumType.STRING)
@@ -25,9 +26,10 @@ public class Book {
     protected Book() {
     }
 
-    public Book(String title, String author) {
+    public Book(String title, String author, Genre genre) {
         this.title = title;
         this.author = author;
+        this.genre = genre;
     }
 
     public Integer getId() {
@@ -38,7 +40,23 @@ public class Book {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getAuthor() {
         return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public Genre getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 }
