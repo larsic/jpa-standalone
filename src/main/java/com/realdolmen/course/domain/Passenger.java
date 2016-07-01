@@ -3,13 +3,19 @@
  */
 package com.realdolmen.course.domain;
 
+import org.hibernate.annotations.CollectionId;
+
 import javax.persistence.*;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import static java.time.temporal.ChronoUnit.YEARS;
 
 @Entity
 
@@ -28,8 +34,8 @@ public class Passenger {
 
     private int frequentFlyerMiles;
 
-    @Temporal(TemporalType.DATE)
-    private Date dateOfBirth;
+
+    private LocalDate dateOfBirth;
 
     @Transient
     private int age;
@@ -38,42 +44,70 @@ public class Passenger {
     @Enumerated(EnumType.STRING)
     private TypeOfPassenger type;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastFlight;
+
+    private LocalDateTime lastFlight;
+
+    @ElementCollection
+    @CollectionTable(name = "passenger_emails", joinColumns = @JoinColumn(name="p_id"))
+    @Column(name= "email")
+
+
+    List<String> emails =  new ArrayList<>();
+
+    public List<String> getEmails() {
+        return emails;
+    }
+
+    public void setEmails(List<String> emails) {
+        this.emails = emails;
+    }
+
+    public void addEmail(String newEmail){
+        if (newEmail ==null || newEmail.trim().length()==0){
+            throw new IllegalArgumentException("fout");
+        }
+        emails.add(newEmail);
+
+    }
 
     public Passenger() {
     }
 
 
-    public Passenger(Integer id, String firstName, String lastName, String ssn, int frequentFlyerMiles, Instant dateOfBirth, TypeOfPassenger type, Instant lastFlight) {
+    public Passenger(Integer id, String firstName, String lastName, String ssn, int frequentFlyerMiles, LocalDate dateOfBirth, TypeOfPassenger type, LocalDateTime lastFlight) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.ssn = ssn;
         this.frequentFlyerMiles = frequentFlyerMiles;
-        this.dateOfBirth = Date.from(dateOfBirth);
-        this.age = (int)ChronoUnit.YEARS.between(LocalDateTime.ofInstant(dateOfBirth, ZoneId.of("GMT+2")), LocalDateTime.now());
+        this.dateOfBirth = dateOfBirth;
         this.type = type;
-        this.lastFlight = Date.from(lastFlight);
+        this.lastFlight = lastFlight;
+        this.age = getAge();
 
     }
 
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
+    public LocalDate getDateOfBirth(){  return dateOfBirth;
+
+
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
     public int getAge() {
-        return age;
+        int a = (LocalDate.now().getYear());
+        int b = this.dateOfBirth.getYear();
+        return a-b;
     }
 
     public void setAge(int age) {
         this.age = age;
     }
+
+
 
     public TypeOfPassenger getType() {
         return type;
@@ -83,11 +117,11 @@ public class Passenger {
         this.type = type;
     }
 
-        public Date getLastFlight() {
+    public LocalDateTime getLastFlight() {
         return lastFlight;
     }
 
-    public void setLastFlight(Date lastFlight) {
+    public void setLastFlight(LocalDateTime lastFlight) {
         this.lastFlight = lastFlight;
     }
 

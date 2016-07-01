@@ -2,5 +2,29 @@
     <book id="1000" author="George Orwell" title="Nineteen Eighty Four" genre="fiction"/>
     <book id="2000" author="Aldous Huxley" title="Brave New World" genre="fiction"/>
     <book id="3000" author="Bram Stoker" title="Dracula" genre="fiction"/>
-    <passenger id = "2" firstName="Frank" lastName="Trigger" ssn="5" frequentFlyerMiles="2000" type="OCCASIONAL"/>
+
+    <passenger id = "2" firstName="Frank" lastName="Trigger" ssn="5" frequentFlyerMiles="2000" dateOfBirth="2001-07-01" type="OCCASIONAL" lastFlight="1990-07-01 05:05:05"/>
+
+    <!--
+        By merely mentioning this table without giving it any values, dbunit knows that
+        it should first delete all passenger_emails and then the passengers, because otherwise
+        deleting a passenger would potentially leave an existing reference to passenger inside passenger_emails.
+
+        Note that this does not have anything to do with Hibernate, but is due to the fact that we
+        need to clear and restore the database before every run of the unit tests, to avoid the dreaded "ordered tests"
+        problem (this problem does tend to show up in a database based test, because there you actually use a
+        shared persistent memory which would be remembered across tests unless we take explicit action this way.
+
+        Also note that other solutions exist to this problem (being rollback after every test for instance), but each
+        solution always has it's own share of problems, so it's hard to fnd a 'universally superior' solution.
+     -->
+    <!--<passenger_emails/>-->
+
+
+    <!--
+        A better idea would be to actually add some records for the passenger here, so you can use it in a unit test
+        which kills two birds in one stone (possibiloty of using in unit tests and fixing this problem we had).
+    -->
+    <passenger_emails p_id="2" email="frank.trigger@gmail.com"/>
+
 </dataset>
